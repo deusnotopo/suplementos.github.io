@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suplementos Inteligentes - Combos para Saúde Integral</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        neuro: '#8e44ad',
+                        cardio: '#e74c3c',
+                        muscular: '#3498db',
+                        digestivo: '#2ecc71',
+                        metabolico: '#f39c12',
+                        reprodutor: '#e84393',
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-slow': 'bounce 2s infinite'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        .combo-card {
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+        .combo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .pill {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-right: 6px;
+            margin-bottom: 8px;
+            transition: all 0.2s ease;
+        }
+        .pill:hover {
+            transform: scale(1.05);
+        }
+        .tab-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .tab-content.active {
+            display: block;
+            opacity: 1;
+        }
+        .system-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        .system-icon:hover {
+            transform: scale(1.1);
+        }
+        .tab-button {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .tab-button::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background-color: currentColor;
+            transition: width 0.3s ease;
+        }
+        .tab-button:hover::after {
+            width: 100%;
+        }
+        .time-card {
+            transition: all 0.3s ease;
+        }
+        .time-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .highlight-box {
+            position: relative;
+            overflow: hidden;
+        }
+        .highlight-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, currentColor, transparent);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans antialiased">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <header class="text-center mb-12">
+            <div class="floating inline-block mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#8e44ad" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+                </svg>
+            </div>
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">Suplementos Inteligentes</h1>
+            <p class="text-xl text-gray-600">Combos científicos para saúde integral</p>
+            <div class="w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto mt-4 rounded-full"></div>
+        </header>
+
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+            <div class="p-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Como usar esta plataforma</h2>
+                <p class="text-gray-600 mb-4">Selecione abaixo o sistema que deseja otimizar e descubra combos de suplementos cientificamente formulados para cada necessidade.</p>
+                
+                <div class="flex flex-wrap gap-2 mb-6 justify-center" role="tablist">
+                    <button onclick="showTab('neuro')" class="px-4 py-2 rounded-full bg-neuro text-white font-medium hover:bg-opacity-90 transition tab-button" aria-label="Ver combo Sistema Nervoso" id="tab-neuro" role="tab" aria-selected="true" tabindex="0">
+                        <i class="fas fa-brain mr-2"></i> Sistema Nervoso
+                    </button>
+                    <button onclick="showTab('cardio')" class="px-4 py-2 rounded-full bg-cardio text-white font-medium hover:bg-opacity-90 transition tab-button" aria-label="Ver combo Sistema Cardiovascular" id="tab-cardio" role="tab" aria-selected="false" tabindex="0">
+                        <i class="fas fa-heart mr-2"></i> Cardiovascular
+                    </button>
+                    <button onclick="showTab('muscular')" class="px-4 py-2 rounded-full bg-muscular text-white font-medium hover:bg-opacity-90 transition tab-button" aria-label="Ver combo Sistema Muscular" id="tab-muscular" role="tab" aria-selected="false" tabindex="0">
+                        <i class="fas fa-dumbbell mr-2"></i> Muscular
+                    </button>
+                    <button onclick="showTab('digestivo')" class="px-4 py-2 rounded-full bg-digestivo text-white font-medium hover:bg-opacity-90 transition tab-button" aria-label="Ver combo Sistema Digestivo" id="tab-digestivo" role="tab" aria-selected="false" tabindex="0">
+                        <i class="fas fa-stomach mr-2"></i> Digestivo
+                    </button>
+                    <button onclick="showTab('metabolico')" class="px-4 py-2 rounded-full bg-metabolico text-white font-medium hover:bg-opacity-90 transition tab-button" aria-label="Ver combo Sistema Metabólico" id="tab-metabolico" role="tab" aria-selected="false" tabindex="0">
+                        <i class="fas fa-fire mr-2"></i> Metabólico
+                    </button>
+                    <button onclick="showTab('reprodutor')" class="px-4 py-2 rounded-full bg-reprodutor text-white font-medium hover:bg-opacity-90 transition tab-button" aria-label="Ver combo Sistema Reprodutor" id="tab-reprodutor" role="tab" aria-selected="false" tabindex="0">
+                        <i class="fas fa-venus-mars mr-2"></i> Reprodutor
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Neuro Tab -->
+        <div id="neuro" class="tab-content active">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8 border-l-4 border-neuro combo-card">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="system-icon text-neuro">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h2 class="text-2xl font-semibold text-gray-800 ml-3">Sistema Nervoso</h2>
+                    </div>
+                    <p class="text-gray-600 mb-6">Combinação para energia, foco, humor e redução da ansiedade.</p>
+                    
+                    <div class="mb-6 highlight-box bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-medium text-gray-700 mb-3">Composição:</h3>
+                        <div>
+                            <span class="pill bg-neuro text-white hover:shadow-md" title="Triptofano: precursor de serotonina, auxilia no humor e sono. Evidência: PubMed 30894336" aria-describedby="desc-triptofano">Triptofano</span>
+                            <span class="pill bg-neuro text-white hover:shadow-md" title="GABA: neurotransmissor inibitório, reduz ansiedade. Evidência: PubMed 29599763" aria-describedby="desc-gaba">GABA</span>
+                            <span class="pill bg-neuro text-white hover:shadow-md" title="5HTP: aumenta serotonina, melhora humor e sono. Evidência: PubMed 18681988" aria-describedby="desc-5htp">5HTP</span>
+                            <span class="pill bg-neuro text-white hover:shadow-md" title="Complexo B: suporte ao sistema nervoso e energia. Evidência: NIH B Vitamins" aria-describedby="desc-b">Complexo B</span>
+                            <span class="pill bg-neuro text-white hover:shadow-md" title="Panax Ginseng: melhora foco e disposição. Evidência: PubMed 23717127" aria-describedby="desc-ginseng">Panax Ginseng</span>
+                            <span class="pill bg-neuro text-white hover:shadow-md" title="Cafeína: estimula alerta e foco. Evidência: PubMed 2912010" aria-describedby="desc-cafeina">Cafeína</span>
+                            <span class="pill bg-neuro text-white hover:shadow-md" title="Guaraná: fonte natural de cafeína, energia. Evidência: PubMed 23766849" aria-describedby="desc-guarana">Guaraná</span>
+                            <span class="pill bg-neuro text-white hover:shadow-md" title="Catuaba: tradicionalmente usada para fadiga e libido. Evidência: PubMed 20645742" aria-describedby="desc-catuaba">Catuaba</span>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-3 gap-6 mb-6">
+                        <div class="bg-gray-50 p-4 rounded-lg time-card">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-sun text-yellow-500 mr-2 text-xl"></i>
+                                <h4 class="font-medium text-gray-700">Manhã</h4>
+                            </div>
+                            <ul class="text-gray-600 list-disc pl-5">
+                                <li>Complexo B (1 cápsula)</li>
+                                <li>Panax Ginseng (1 cápsula)</li>
+                                <li>Guaraná (1 cápsula)</li>
+                            </ul>
+                            <p class="text-sm text-gray-500 mt-2"><i class="fas fa-coffee mr-1"></i> Após o café da manhã</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg time-card">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-cloud-sun text-orange-400 mr-2 text-xl"></i>
+                                <h4 class="font-medium text-gray-700">Tarde</h4>
+                            </div>
+                            <ul class="text-gray-600 list-disc pl-5">
+                                <li>Cafeína (1 cápsula)</li>
+                                <li>Catuaba (1 cápsula)</li>
+                            </ul>
+                            <p class="text-sm text-gray-500 mt-2"><i class="fas fa-utensils mr-1"></i> Após o almoço</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg time-card">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-moon text-indigo-400 mr-2 text-xl"></i>
+                                <h4 class="font-medium text-gray-700">Noite</h4>
+                            </div>
+                            <ul class="text-gray-600 list-disc pl-5">
+                                <li>Triptofano (1 cápsula)</li>
+                                <li>GABA (1 cápsula)</li>
+                                <li>5HTP (1 cápsula)</li>
+                            </ul>
+                            <p class="text-sm text-gray-500 mt-2"><i class="fas fa-bed mr-1"></i> 30 minutos antes de dormir</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-green-50 p-4 rounded-lg highlight-box">
+                            <h3 class="text-lg font-medium text-green-800 mb-2 flex items-center">
+                                <i class="fas fa-check-circle mr-2"></i> Efeitos esperados:
+                            </h3>
+                            <ul class="text-gray-600 list-disc pl-5">
+                                <li>Redução da ansiedade</li>
+                                <li>Melhora do foco e disposição</li>
+                                <li>Melhora do humor</li>
+                                <li>Qualidade do sono</li>
+                            </ul>
+                        </div>
+                        <div class="bg-red-50 p-4 rounded-lg highlight-box">
+                            <h3 class="text-lg font-medium text-red-800 mb-2 flex items-center">
+                                <i class="fas fa-exclamation-triangle mr-2"></i> Contraindicações:
+                            </h3>
+                            <ul class="text-gray-600 list-disc pl-5">
+                                <li>Hipertensos</li>
+                                <li>Gestantes e lactantes</li>
+                                <li>Transtorno bipolar</li>
+                                <li>Depressão severa</li>
+                                <li>Epilepsia</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200 flex items-center">
+                        <i class="fas fa-calendar-alt text-yellow-600 mr-3 text-xl"></i>
+                        <div>
+                            <h3 class="text-lg font-medium text-yellow-800 mb-1">Duração do tratamento:</h3>
+                            <p class="text-yellow-700">Ciclos de 30 dias com pausa de 10 dias.</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex justify-end">
+                        <a href="#" class="inline-block bg-neuro text-white px-6 py-3 rounded-full font-semibold shadow hover:bg-purple-700 transition" aria-label="Comprar combo Sistema Nervoso">
+                            Comprar este Combo
+                            <i class="fas fa-shopping-cart ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cardio Tab -->
+        <div id="cardio" class="tab-content">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8 border-l-4 border-cardio combo-card">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="system-icon text-cardio">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h2 class="text-2xl font-semibold text-gray-800 ml-3">Sistema Cardiovascular</h2>
+                    </div>
+                    <p class="text-gray-600 mb-6">Combinação para pressão, colesterol e circulação.</p>
+                    
+                    <div class="mb-6 highlight-box bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-medium text-gray-700 mb-3">Composição:</h3>
+                        <div>
+                            <span class="pill bg-cardio text-white hover:shadow-md" title="Ômega 3: reduz triglicerídeos, protege o coração. Evidência: PubMed 30793760" aria-describedby="desc-omega3">Ômega 3</span>
+                            <span class="pill bg-cardio text-white hover:shadow-md" title="Magnésio Dimalato: relaxamento muscular, pressão arterial. Evidência: PubMed 29534081" aria-describedby="desc-magnesio">Magnésio Dimalato</span>
+                            <span class="pill bg-cardio text-white hover:shadow-md" title="Vitamina D3: saúde cardiovascular e imunidade. Evidência: NIH Vitamin D" aria-describedby="desc-d3">Vitamina D3</span>
+                            <span class="pill bg-cardio text-white hover:shadow-md" title="Polypodium: antioxidante, proteção vascular. Evidência: PubMed 24602817" aria-describedby="desc-polypodium">Polypodium</span>
+                            <span class="pill bg-cardio text-white hover:shadow-md" title="Resveratrol: antioxidante, protege vasos sanguíneos. Evidência: PubMed 23855363" aria-describedby="desc-resveratrol">Resveratrol</span>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-gray-50 p-4 rounded-lg time-card">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-sun text-yellow-500 mr-2 text-xl"></i>
+                                <h4 class="font-medium text-gray-700">Manhã</h4>
+                            </div>
+                            <ul class="text-gray-600 list-disc pl-5">
+                                <li>Vitamina D3 (1 cápsula)</li>
+                                <li>Resveratrol (1 cápsula)</li>
+                                <li>Polypodium (1 cápsula)</li>
+                            </ul>
+                            <p class="text-sm text-gray-500 mt-2"><i class="fas fa-coffee mr-1"></i> Junto ao café da manhã</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg time-card">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-moon text-indigo-400 mr-2 text-xl"></i>
+                                <h4 class="font-medium text-gray-700">Noite</h4>
+                            </div>
+                            <ul class="text-gray-600 list-disc pl-5">
+                                <li>Ômega 3 (1 cápsula)</li>
+                                <li>Magnésio Dimalato (1 cápsula)</li>
+                            </ul>
+                            <p class="text-sm text-gray-500 mt-2"><i class="fas fa-utensils mr-1"></i> Após o jantar</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-green-50 p-4 rounded-lg highlight-box">
+                            <h3 class="text-lg font-medium text-green-800 mb-2 flex items-center">
+                                <i class="fas fa-check-circle mr-2"></i> Efeitos esperados:
+                            </h3>
+                            <ul class="text-gray-600 list-disc pl-5">
+                                <li>Melhora da circulação</li>
+                                <li>Controle da pressão arterial</li>
+                                <li>Redução do colesterol ruim (LDL)</li>
+                                <li>Proteção cardiovascular</li>
+                            </ul>
+                        </div>
+                        <div class="bg-red-50 p-4 rounded-lg highlight-box">
+                            <h3 class="text-lg font-medium text-red-800 mb-2 flex items-center">
+                                <i class="fas fa-exclamation-triangle mr-2"></i> Contraindicações:
+                            </h3>
+                            <ul class="text-gray-600 list-disc pl-5">
+                                <li>Uso de anticoagulantes</li>
+                                <li>Problemas renais</li>
+                                <li>Gestantes e lactantes sem orientação</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200 flex items-center">
+                        <i class="fas fa-calendar-alt text-blue-600 mr-3 text-xl"></i>
+                        <div>
+                            <h3 class="text-lg font-medium text-blue-800 mb-1">Duração do tratamento:</h3>
+                            <p class="text-blue-700">Uso contínuo com reavaliação a cada 90 dias.</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex justify-end">
+                        <a href="#" class="inline-block bg-cardio text-white px-6 py-3 rounded-full font-semibold shadow hover:bg-red-700 transition" aria-label="Comprar combo Sistema Cardiovascular">
+                            Comprar este Combo
+                            <i class="fas fa-shopping-cart ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Muscular Tab -->
+        <div id="muscular" class="tab-content">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8 border-l-4 border-muscular combo-card">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="system-icon text-muscular">
+                            <i class="fas fa-dumbbell"></i>
+                        </div>
+                        <h2 class="text-2xl font-semibold text-gray-800 ml-3">Sistema Muscular</h2>
+                    </div>
+                    <p class="text-gray-600 mb-6">Combinação para dores, inflamação, ossos e articulações.</p>
+                    
+                    <div class="mb-6 highlight-box bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-medium text-gray-700 mb-3">Composição:</h3>
+                        <div>
+                            <span class="pill bg-muscular text-white hover:shadow-md" title="Magnésio Dimalato: relaxamento muscular, reduz cãibras. Evidência: PubMed 29534081" aria-describedby="desc-magnesio">Magnésio Dimalato</span>
+                            <span class="pill bg-muscular text-white hover:shadow-md" title="Colágeno Tipo II: saúde articular e cartilagens. Evidência: PubMed 24193194" aria-describedby="desc-colageno">Colágeno Tipo II</span>
+                            <span class="pill bg-muscular text-white hover:shadow-md" title="Ômega 3: ação anti-inflamatória. Evidência: PubMed 30793760" aria-describedby="desc-omega3">Ômega 3</span>
+                            <span class="pill bg-muscular text-white hover:shadow-md" title="Cúrcuma: anti-inflamatório natural. Evidência: PubMed 17569207" aria-describedby="desc-curcuma">Cúrcuma</span>
+                            <span class="pill bg-muscular text-white hover:shadow-md" title="Vitamina D3: saúde óssea e muscular. Evidência: NIH Vitamin D" aria-describedby="desc-d3">Vitamina D3</span>
+                            <span class="pill bg-muscular text-white hover:shadow-md" title="Polypodium: antioxidante, proteção muscular. Evidência: PubMed 24602817" aria-describedby="desc-polypodium">Polypodium</span>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-gray-50 p-4 rounded-lg time-card">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-sun text-yellow-500 mr-2 text-xl"></i>
+                                <h4 class="font-medium text-gray-700">Manhã</h4>
+                            </div>
+                            <ul class="text-gray-600 list-disc pl-5">
+                                <li>Colágeno Tipo II (1 cápsula)</li>
+                                <li>Polypodium (1 cápsula)</li>
+                                <li>Vitamina D3 (1 cápsula)</li>
+                            </ul>
+                            <p class="text-sm text-gray-500 mt-2"><i class="fas fa-coffee mr-1"></i> Após o café</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg time-card">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-moon text-indigo-400 mr-2 text-xl"></i>
+                                <h4 class="font-medium text-gray-700">Noite</h4>
+                            </div>
+                            <ul class="text-gray-600 list-disc pl-5">
+                                <li>Magnésio Dimalato (1 cápsula)</li>
+                                <li>Ômega 3 (1 cápsula)</li>
+                                <li>Cúrcuma (1 cápsula)</li>
+                            </ul>
+                            <p class="text-sm text-gray-500 mt-2"><i class="fas fa-utensils mr-1"></i> Após o jantar</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-green-50 p-4 rounded-lg highlight-box">
+                            <h3 class="text-lg font-medium text-green-800 mb-2 flex items-center">
+                                <i class="fas fa-check-circle mr-2"></i> Efeitos esperados:
+                            </h3>
+                            <ul class="text-gray-600 list-disc pl-5">
+                                <li>Redução de dores articulares</li>
+                                <li>Fortalecimento muscular</li>
+                                <li>Proteção óssea</li>
+                                <li>Ação anti-inflamatória</li>
+                            </ul>
+                        </div>
+                        <div class="bg-red-50 p-4 rounded-lg highlight-box">
+                            <h3 class="text-lg font-medium text-red-800 mb-2 flex items-center">
+                                <i class="fas fa-exclamation-triangle mr-2"></i> Contraindicações:
+                            </h3>
+                            <ul class="text-gray-600 list-disc pl-5">
+                                <li>Gestantes e lactantes</li>
+                                <li>Pessoas com cálculos renais</li>
+                                <li>Uso de anticoagulantes</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-green-50 rounded-lg border border-green-200 flex items-center">
+                        <i class="fas fa-calendar-alt text-green-600 mr-3 text-xl"></i>
+                        <div>
+                            <h3 class="text-lg font-medium text-green-800 mb-1">Duração do tratamento:</h3>
+                            <p class="text-green-700">90 dias para efeitos mais consistentes.</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex justify-end">
+                        <a href="#" class="inline-block bg-muscular text-white px-6 py-3 rounded-full font-semibold shadow hover:bg-blue-700 transition" aria-label="Comprar combo Sistema Muscular">
+                            Comprar este Combo
+                            <i class="fas fa-shopping-cart ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Digestivo Tab -->
+        <div id="digestivo" class="tab-content">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8 border-l-4 border-digestivo combo-card">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="system-icon text-digestivo">
+                            <i class="fas fa-stomach"></i>
+                        </div>
+                        <h2 class="text-2xl font-semibold text-gray-800 ml-3">Sistema Digestivo</h2>
+                    </div>
+                    <p class="text-gray-600 mb-6">Combinação para flora intestinal, imunidade e digestão.</p>
+                    
+                    <div class="mb-6 highlight-box bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-medium text-gray-700 mb-3">Composição:</h3>
+                        <div>
+                            <span class="pill bg-digestivo text-white hover:shadow-md" title="Lactobacillus: probiótico, melhora flora intestinal. Evidência: PubMed 31125080" aria-describedby="desc-lacto">Lactobacillus</span>
+                            <span class="pill bg-digestivo text-white hover:shadow-md" title="Psyllium: fibra, regula intestino. Evidência: PubMed 28252221" aria-describedby="desc-psyllium">Psyllium</span>
+                            <span class="pill bg-digestivo text-white hover:shadow-md" title="Glutamina: recuperação da mucosa intestinal. Evidência: PubMed 30308399" aria-describedby="desc-glutamina">Glutamina</span>
+                            <span class="pill bg-digestivo text-white hover:shadow-md" title="Cúrcuma: anti-inflamatório digestivo. Evidência: PubMed 17569207" aria-describedby="desc-curcuma">Cúrcuma</span>
+                            <span class="pill bg-digestivo text-white hover:shadow-md" title="Spirulina: antioxidante, suporte imunológico. Evidência: PubMed 23754631" aria-describedby="desc-spirulina">Spirulina</span>
+                            <span class="pill bg-digestivo text-white hover:shadow-md" title="Própolis: antimicrobiano natural. Evidência: PubMed 23743869" aria-describedby="desc-propolis">Própolis</span>
+                            <span class="pill bg-digestivo text-white hover:shadow-md" title="Vitamina D3: imunidade e saúde digestiva. Evidência: NIH Vitamin D" aria-describedby="desc-d3">Vitamina D3</span>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-3 gap-6 mb-6">
+                        <div class="bg-gray-50 p-4 rounded-lg time-card">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-sun text-yellow-500 mr-2 text-xl"></i>
+                                <h4 class="font-medium text-gray-700">Manhã</h4>
+                            </div>
+                            <ul class="text-gray-600 list-disc pl-5">
+                                <li>Vitamina D3 (1 cápsula)</li>
+                                <li>Própolis (1 cápsula)</li>
+                                <li>Spirulina (1 cápsula)</li>
+                                <li>Cúrcuma (1 cápsula)</li>
+                            </ul>
+                            <p class="text-sm text-gray-500 mt-2"><i class="fas fa-coffee mr-1"></i> Em jejum ou após café</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg time-card">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-cloud-sun text-orange-400 mr-2 text-xl"></i>
+                                <h4 class="font-medium text-gray-700">Tarde</h4>
+                            </div>
+                            <ul class="text-gray-600 list-disc pl-5">
+                                <li>Psyllium (1 cápsula)</li>
+                                <li>Glutamina (1 cápsula)</li>
+                            </ul>
+                            <p class="text-sm text-gray-500 mt-2"><i class="fas fa-glass-water mr-1"></i> 30 min antes do almoço com água</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg time-card">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-moon text-indigo-400 mr-2 text-xl"></i>
+                                <h4 class="font-medium text-gray-700">Noite</h4>
+                            </div>
+                            <ul class="text-gray-600 list-disc pl-5">
+                                <li>Lactobacillus (1 cápsula)</li>
+                            </ul>
+                            <p class="text-sm text-gray-500 mt-2"><i class="fas fa-bed mr-1"></i> Antes de dormir</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-green-50 p-4 rounded-lg highlight-box">
+                            <h3 class="text-lg font-medium text-green-800 mb-2 flex items-center">
+                                <i class="fas fa-check-circle mr-2"></i> Efeitos esperados:
+                            </h3>
+                            <ul class="text-gray-600 list-disc pl-5">
+                                <li>Melhora da flora intestinal</li>
+                                <li>Fortalecimento da imunidade</li>
+                                <li>Combate à prisão de ventre</li>
+                                <li>Ação anti-inflamatória digestiva</li>
+                            </ul>
+                        </div>
+                        <div class="bg-red-50 p-4 rounded-lg highlight-box">
+                            <h3 class="text-lg font-medium text-red-800 mb-2 flex items-center">
+                                <i class="fas fa-exclamation-triangle mr-2"></i> Contraindicações:
+                            </h3>
+                            <ul class="text-gray-600 list-disc pl-5">
+                                <li>Imunossuprimidos</li>
+                                <li>Doenças autoimunes graves</li>
+                                <li>Tratamento quimioterápico</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-purple-50 rounded-lg border border-purple-200 flex items-center">
+                        <i class="fas fa-calendar-alt text-purple-600 mr-3 text-xl"></i>
+                        <div>
+                            <h3 class="text-lg font-medium text-purple-800 mb-1">Duração do tratamento:</h3>
+                            <p class="text-purple-700">30 a 60 dias com pausa de 10 dias.</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex justify-end">
+                        <a href="#" class="inline-block bg-digestivo text-white px-6 py-3 rounded-full font-semibold shadow hover:bg-green-700 transition" aria-label="Comprar combo Sistema Digestivo">
+                            Comprar este Combo
+                            <i class="fas fa-shopping-cart ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Metabolico Tab -->
+        <div id="metabolico" class="tab-content">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8 border-l-4 border-metabolico combo-card">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="system-icon text-metabolico">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <h2 class="text-2xl font-semibold text-gray-800 ml-3">Sistema Metabólico</h2>
+                    </div>
+                    <p class="text-gray-600 mb-6">Combinação para controle de peso, detox e metabolismo.</p>
+                    
+                    <div class="mb-6 highlight-box bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-medium text-gray-700 mb-3">Composição:</h3>
+                        <div>
+                            <span class="pill bg-metabolico text-white hover:shadow-md" title="Spirulina: saciedade e metabolismo. Evidência: PubMed 23754631" aria-describedby="desc-spirulina">Spirulina</span>
+                            <span class="pill bg-metabolico text-white hover:shadow-md" title="Psyllium: fibra, reduz apetite. Evidência: PubMed 28252221" aria-describedby="desc-psyllium">Psyllium</span>
+                            <span class="pill bg-metabolico text-white hover:shadow-md" title="Laranja Moro: antioxidante, auxilia emagrecimento. Evidência: PubMed 30894336" aria-describedby="desc-laranja">Laranja Moro</span>
+                            <span class="pill bg-metabolico text-white hover:shadow-md" title="Cromo: regula glicose e apetite. Evidência: PubMed 24070845" aria-describedby="desc-cromo">Cromo</span>
+                            <span class="pill bg-metabolico text-white hover:shadow-md" title="Café Verde: termogênico, acelera metabolismo. Evidência: PubMed 2333832" aria-describedby="desc-cafeverde">Café Verde</span>
+                            <span class="pill bg-metabolico text-white hover:shadow-md" title="Guaraná: energia e foco. Evidência: PubMed 23766849" aria-describedby="desc-guarana">Guaraná</span>
+                            <span class="pill bg-metabolico text-white hover:shadow-md" title="Cafeína: estimula alerta e disposição. Evidência: PubMed 2912010" aria-describedby="desc-cafeina">Cafeína</span>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-3 gap-6 mb-6">
+                        <div class="bg-gray-50 p-4 rounded-lg time-card">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-sun text-yellow-500 mr-2 text-xl"></i>
+                                <h4 class="font-medium text-gray-700">Manhã</h4>
+                            </div>
+                            <ul class="text-gray-600 list-disc pl-5">
+                                <li>Café Verde (1 cápsula)</li>
+                                <li>Guaraná (1 cápsula)</li>
+                                <li>Cafeína (1 cápsula)</li>
+                                <li>Laranja Moro (1 cápsula)</li>
+                            </ul>
+                            <p class="text-sm text-gray-500 mt-2"><i class="fas fa-coffee mr-1"></i> Em jejum ou após café</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg time-card">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-cloud-sun text-orange-400 mr-2 text-xl"></i>
+                                <h4 class="font-medium text-gray-700">Tarde</h4>
+                            </div>
+                            <ul class="text-gray-600 list-disc pl-5">
+                                <li>Psyllium (1 cápsula)</li>
+                                <li>Cromo (1 cápsula)</li>
+                            </ul>
+                            <p class="text-sm text-gray-500 mt-2"><i class="fas fa-utensils mr-1"></i> 30 min antes do almoço</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg time-card">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-moon text-indigo-400 mr-2 text-xl"></i>
+                                <h4 class="font-medium text-gray-700">Noite</h4>
+                            </div>
+                            <ul class="text-gray-600 list-disc pl-5">
+                                <li>Spirulina (1 cápsula)</li>
+                            </ul>
+                            <p class="text-sm text-gray-500 mt-2"><i class="fas fa-utensils mr-1"></i> Após jantar</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-green-50 p-4 rounded-lg highlight-box">
+                            <h3 class="text-lg font-medium text-green-800 mb-2 flex items-center">
+                                <i class="fas fa-check-circle mr-2"></i> Efeitos esperados:
+                            </h3>
+                            <ul class="text-gray-600 list-disc pl-5">
+                                <li>Auxílio no emagrecimento</li>
+                                <li>Controle da glicose</li>
+                                <li>Redução do apetite</li>
+                                <li>Aumento da saciedade</li>
+                                <li>Queima de gordura</li>
+                            </ul>
+                        </div>
+                        <div class="bg-red-50 p-4 rounded-lg highlight-box">
+                            <h3 class="text-lg font-medium text-red-800 mb-2 flex items-center">
+                                <i class="fas fa-exclamation-triangle mr-2"></i> Contraindicações:
+                            </h3>
+                            <ul class="text-gray-600 list-disc pl-5">
+                                <li>Hipertensos</li>
+                                <li>Gestantes e lactantes</li>
+                                <li>Diabéticos sem controle</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-orange-50 rounded-lg border border-orange-200 flex items-center">
+                        <i class="fas fa-calendar-alt text-orange-600 mr-3 text-xl"></i>
+                        <div>
+                            <h3 class="text-lg font-medium text-orange-800 mb-1">Duração do tratamento:</h3>
+                            <p class="text-orange-700">60 dias com pausa de 15 dias.</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex justify-end">
+                        <a href="#" class="inline-block bg-metabolico text-white px-6 py-3 rounded-full font-semibold shadow hover:bg-yellow-700 transition" aria-label="Comprar combo Sistema Metabólico">
+                            Comprar este Combo
+                            <i class="fas fa-shopping-cart ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reprodutor Tab -->
+        <div id="reprodutor" class="tab-content">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8 border-l-4 border-reprodutor combo-card">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="system-icon text-reprodutor">
+                            <i class="fas fa-venus-mars"></i>
+                        </div>
+                        <h2 class="text-2xl font-semibold text-gray-800 ml-3">Sistema Reprodutor</h2>
+                    </div>
+                    <p class="text-gray-600 mb-6">Combinação para libido, energia sexual e bem-estar hormonal.</p>
+                    
+                    <div class="mb-6 highlight-box bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-medium text-gray-700 mb-3">Composição:</h3>
+                        <div>
+                            <span class="pill bg-reprodutor text-white hover:shadow-md" title="Catuaba: tradicionalmente usada para libido. Evidência: PubMed 20645742" aria-describedby="desc-catuaba">Catuaba</span>
+                            <span class="pill bg-reprodutor text-white hover:shadow-md" title="Tribulus Terrestris: aumenta testosterona. Evidência: PubMed 17530942" aria-describedby="desc-tribulus">Tribulus Terrestris</span>
+                            <span class="pill bg-reprodutor text-white hover:shadow-md" title="Maca Peruana: energia e fertilidade. Evidência: PubMed 19781622" aria-describedby="desc-maca">Maca Peruana</span>
+                            <span class="pill bg-reprodutor text-white hover:shadow-md" title="Gengibre: melhora circulação e libido. Evidência: PubMed 23757943" aria-describedby="desc-gengibre">Gengibre</span>
+                            <span class="pill bg-reprodutor text-white hover:shadow-md" title="Ginseng: energia e vitalidade. Evidência: PubMed 23717127" aria-describedby="desc-ginseng">Ginseng</span>
+                            <span class="pill bg-reprodutor text-white hover:shadow-md" title="Cafeína: energia e disposição. Evidência: PubMed 2912010" aria-describedby="desc-cafeina">Cafeína</span>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-gray-50 p-4 rounded-lg time-card">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-sun text-yellow-500 mr-2 text-xl"></i>
+                                <h4 class="font-medium text-gray-700">Manhã</h4>
+                            </div>
+                            <ul class="text-gray-600 list-disc pl-5">
+                                <li>Ginseng (1 cápsula)</li>
+                                <li>Maca Peruana (1 cápsula)</li>
+                                <li>Gengibre (1 cápsula)</li>
+                            </ul>
+                            <p class="text-sm text-gray-500 mt-2"><i class="fas fa-coffee mr-1"></i> Após o café</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg time-card">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-moon text-indigo-400 mr-2 text-xl"></i>
+                                <h4 class="font-medium text-gray-700">Noite</h4>
+                            </div>
+                            <ul class="text-gray-600 list-disc pl-5">
+                                <li>Catuaba (1 cápsula)</li>
+                                <li>Tribulus (1 cápsula)</li>
+                                <li>Cafeína (1 cápsula)</li>
+                            </ul>
+                            <p class="text-sm text-gray-500 mt-2"><i class="fas fa-heart mr-1"></i> 1h antes da relação ou no jantar</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-green-50 p-4 rounded-lg highlight-box">
+                            <h3 class="text-lg font-medium text-green-800 mb-2 flex items-center">
+                                <i class="fas fa-check-circle mr-2"></i> Efeitos esperados:
+                            </h3>
+                            <ul class="text-gray-600 list-disc pl-5">
+                                <li>Aumento da libido</li>
+                                <li>Energia sexual</li>
+                                <li>Melhora da performance</li>
+                                <li>Bem-estar hormonal</li>
+                            </ul>
+                        </div>
+                        <div class="bg-red-50 p-4 rounded-lg highlight-box">
+                            <h3 class="text-lg font-medium text-red-800 mb-2 flex items-center">
+                                <i class="fas fa-exclamation-triangle mr-2"></i> Contraindicações:
+                            </h3>
+                            <ul class="text-gray-600 list-disc pl-5">
+                                <li>Hipertensos</li>
+                                <li>Gestantes e lactantes</li>
+                                <li>Histórico de arritmia</li>
+                                <li>Disfunções hormonais</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-pink-50 rounded-lg border border-pink-200 flex items-center">
+                        <i class="fas fa-calendar-alt text-pink-600 mr-3 text-xl"></i>
+                        <div>
+                            <h3 class="text-lg font-medium text-pink-800 mb-1">Duração do tratamento:</h3>
+                            <p class="text-pink-700">Ciclos de 30 dias com pausas de 5 a 10 dias.</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex justify-end">
+                        <a href="#" class="inline-block bg-reprodutor text-white px-6 py-3 rounded-full font-semibold shadow hover:bg-pink-700 transition" aria-label="Comprar combo Sistema Reprodutor">
+                            Comprar este Combo
+                            <i class="fas fa-shopping-cart ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="mt-12 text-center text-gray-500 text-sm">
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <p>© 2023 Suplementos Inteligentes. Todas as informações são meramente informativas e não substituem orientação médica.</p>
+                <p class="mt-2">Consulte sempre um profissional de saúde antes de iniciar qualquer suplementação.</p>
+                <div class="mt-4 flex justify-center space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-gray-600 transition">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-gray-600 transition">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-gray-600 transition">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-gray-600 transition">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+                <div class="mt-8 text-left max-w-2xl mx-auto">
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">Fontes e Referências</h3>
+                    <ul class="list-disc pl-6 text-gray-600 text-sm space-y-1">
+                        <li><a href="https://www.who.int/news-room/fact-sheets/detail/vitamins-and-minerals" target="_blank" rel="noopener" class="underline hover:text-blue-700">WHO: Vitamins and minerals</a></li>
+                        <li><a href="https://www.ncbi.nlm.nih.gov/pmc/" target="_blank" rel="noopener" class="underline hover:text-blue-700">PubMed Central - Suplementação e Saúde</a></li>
+                        <li><a href="https://www.gov.br/anvisa/pt-br/assuntos/alimentos/suplementos-alimentares" target="_blank" rel="noopener" class="underline hover:text-blue-700">ANVISA - Suplementos Alimentares</a></li>
+                        <li><a href="https://www.endocrino.org.br/" target="_blank" rel="noopener" class="underline hover:text-blue-700">SBEM - Sociedade Brasileira de Endocrinologia e Metabologia</a></li>
+                        <li><a href="https://ods.od.nih.gov/factsheets/list-all/" target="_blank" rel="noopener" class="underline hover:text-blue-700">NIH - Dietary Supplement Fact Sheets</a></li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        function showTab(tabId) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            // Show selected tab
+            document.getElementById(tabId).classList.add('active');
+            // Atualiza aria-selected nas abas
+            document.querySelectorAll('[role="tab"]').forEach(btn => {
+                btn.setAttribute('aria-selected', 'false');
+            });
+            document.getElementById('tab-' + tabId).setAttribute('aria-selected', 'true');
+            // Scroll to top of the tab
+            window.scrollTo({
+                top: document.getElementById(tabId).offsetTop - 20,
+                behavior: 'smooth'
+            });
+        }
+        // Navegação por teclado nas abas
+        document.addEventListener('DOMContentLoaded', function() {
+            const pills = document.querySelectorAll('.pill');
+            pills.forEach((pill, index) => {
+                setTimeout(() => {
+                    pill.style.opacity = '1';
+                    pill.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+            const tabButtons = Array.from(document.querySelectorAll('[role="tab"]'));
+            tabButtons.forEach((btn, idx) => {
+                btn.addEventListener('keydown', function(e) {
+                    if (e.key === 'ArrowRight') {
+                        e.preventDefault();
+                        const next = tabButtons[(idx + 1) % tabButtons.length];
+                        next.focus();
+                    } else if (e.key === 'ArrowLeft') {
+                        e.preventDefault();
+                        const prev = tabButtons[(idx - 1 + tabButtons.length) % tabButtons.length];
+                        prev.focus();
+                    } else if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        btn.click();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
